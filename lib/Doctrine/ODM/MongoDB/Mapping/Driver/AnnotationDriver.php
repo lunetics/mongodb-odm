@@ -81,8 +81,13 @@ class AnnotationDriver extends AbstractAnnotationDriver
                 }
             } elseif ($annot instanceof ODM\InheritanceType) {
                 $class->setInheritanceType(constant('Doctrine\\ODM\\MongoDB\\Mapping\\ClassMetadata::INHERITANCE_TYPE_'.$annot->value));
-            } elseif ($annot instanceof ODM\DiscriminatorField) {
-                $class->setDiscriminatorField(array('fieldName' => $annot->fieldName, 'name' => $annot->name));
+            } elseif ($annot instanceof ODM\DiscrliminatorField) {
+                // $fieldName property is deprecated, but fall back for BC
+                if (isset($annot->name)) {
+                    $class->setDiscriminatorField($annot->name);
+                } elseif (isset($annot->fieldName)) {
+                    $class->setDiscriminatorField($annot->fieldName);
+                }
             } elseif ($annot instanceof ODM\DiscriminatorMap) {
                 $class->setDiscriminatorMap($annot->value);
             } elseif ($annot instanceof ODM\DiscriminatorValue) {

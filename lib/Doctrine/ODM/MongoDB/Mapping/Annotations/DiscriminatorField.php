@@ -25,5 +25,11 @@ use Doctrine\Common\Annotations\Annotation;
 final class DiscriminatorField extends Annotation
 {
     public $name;
+
+    /**
+     * Available for BC, but AnnotationDriver will consider $name first.
+     *
+     * @deprecated
+     */
     public $fieldName;
 }
